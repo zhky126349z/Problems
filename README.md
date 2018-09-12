@@ -26,3 +26,6 @@ dmesg //显示树莓派最近发生的事情 <br>
 6. 中继桥接 (Repeater Bridge)和”中继”模式一样，可以解决无线信号受到距离或者障碍物的影响不能传输到更远的问题。不过，接入到该无线路由器上的电脑终端，是和主无线网网络处在相同的IP地址段。<b>内部的DHCP请求，也会被转发到主无线网络上。</b><br>
 <br>
 也就是说，只要有bridge这个词，基本就相当于他没有自己单独的局域网网段，所以如果你需要还有自己单独的局域网网段的话，需要以中继的模式连接。<br>
+
+### 500 internal server error at GetResponse()<br>
+To get the error from the web server, add a try catch and catch a WebException. A WebException has a property called Response which is a HttpResponse.

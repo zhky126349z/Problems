@@ -29,3 +29,18 @@ dmesg //显示树莓派最近发生的事情 <br>
 
 ### 500 internal server error at GetResponse()<br>
 To get the error from the web server, add a try catch and catch a WebException. A WebException has a property called Response which is a HttpResponse.
+
+### C++读取多行不定数字
+    #include<sstream>
+    // 先把一行数据用geline读到str里
+    while(getline(cin, str)) {
+        vector<int> line;
+        if (str.size() == 0) break;
+        // 把一行数据转化为istringstream，会自动切分
+        istringstream ist(str);
+        while (ist >> num) {
+            line.push_back(num);
+        }
+        input.push_back(line);
+    }
+

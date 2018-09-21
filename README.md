@@ -44,3 +44,6 @@ To get the error from the web server, add a try catch and catch a WebException. 
         input.push_back(line);
     }
 
+### C++里x.length()的返回
+string.length(), vec.length(), 返回的都是无符号数，这个时候如果不做强制转换，将其与-1比较时，会出现问题，导致判断错误
+如何真的需要跟-1进行比较时，需要(int)string.length()

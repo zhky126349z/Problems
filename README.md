@@ -47,3 +47,11 @@ To get the error from the web server, add a try catch and catch a WebException. 
 ### C++里x.length()的返回
 string.length(), vec.length(), 返回的都是无符号数，这个时候如果不做强制转换，将其与-1比较时，会出现问题，导致判断错误
 如何真的需要跟-1进行比较时，需要(int)string.length()
+
+### Sql从一个表复制到另一个表，包含标记位时
+批量插入记录时,对有标识列的字段要设置 set IDENTITY_INSERT 表名 on,然后再执行插入记录操作;插入完毕后恢复为 off 设置
+
+    SET IDENTITY_INSERT DuplicateTable ON
+    INSERT Into DuplicateTable ([IdentityColumn], [Column2], [Column3], [Column4] ) 
+    SELECT [IdentityColumn], [Column2], [Column3], [Column4] FROM MainTable
+    SET IDENTITY_INSERT DuplicateTable OFF

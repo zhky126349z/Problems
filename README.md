@@ -1,6 +1,37 @@
 # Problems
 记录一下平时遇到的问题和解决方案
 
+### 给一个已有的数据库表加partition
+1. 创建partition function
+2. 创建partition schema
+3. 建新表，包含partition index
+4. 改代码，使job代码支持partition index
+5. 把旧表数据转移到新表，第一次数据较多时间较长。
+6. 停止写入表job的代码，第二次转移数据，drop旧表，rename新表
+7. 运行代码
+
+### Sql从一个表复制到另一个表，包含标记位时
+批量插入记录时,对有标识列的字段要设置 set IDENTITY_INSERT 表名 on,然后再执行插入记录操作;插入完毕后恢复为 off 设置
+
+    SET IDENTITY_INSERT DuplicateTable ON
+    INSERT Into DuplicateTable ([IdentityColumn], [Column2], [Column3], [Column4] ) 
+    SELECT [IdentityColumn], [Column2], [Column3], [Column4] FROM MainTable
+    SET IDENTITY_INSERT DuplicateTable OFF
+
+### C++读取多行不定数字
+    #include<sstream>
+    // 先把一行数据用geline读到str里
+    while(getline(cin, str)) {
+        vector<int> line;
+        if (str.size() == 0) break;
+        // 把一行数据转化为istringstream，会自动切分
+        istringstream ist(str);
+        while (ist >> num) {
+            line.push_back(num);
+        }
+        input.push_back(line);
+    }
+
 ### 树莓派开机自启问题<br>
 树莓派开机自启的问题，在rc.local里设置了自启后，上电无法自启程序，但是重启可以自启。<br>
 查看了系统log日志，发现应该是网络初始化还没完成时就执行了程序，在程序里加了一个sleep()函数，解决。<br>
@@ -30,28 +61,6 @@ dmesg //显示树莓派最近发生的事情 <br>
 ### 500 internal server error at GetResponse()<br>
 To get the error from the web server, add a try catch and catch a WebException. A WebException has a property called Response which is a HttpResponse.
 
-### C++读取多行不定数字
-    #include<sstream>
-    // 先把一行数据用geline读到str里
-    while(getline(cin, str)) {
-        vector<int> line;
-        if (str.size() == 0) break;
-        // 把一行数据转化为istringstream，会自动切分
-        istringstream ist(str);
-        while (ist >> num) {
-            line.push_back(num);
-        }
-        input.push_back(line);
-    }
-
 ### C++里x.length()的返回
 string.length(), vec.length(), 返回的都是无符号数，这个时候如果不做强制转换，将其与-1比较时，会出现问题，导致判断错误
 如何真的需要跟-1进行比较时，需要(int)string.length()
-
-### Sql从一个表复制到另一个表，包含标记位时
-批量插入记录时,对有标识列的字段要设置 set IDENTITY_INSERT 表名 on,然后再执行插入记录操作;插入完毕后恢复为 off 设置
-
-    SET IDENTITY_INSERT DuplicateTable ON
-    INSERT Into DuplicateTable ([IdentityColumn], [Column2], [Column3], [Column4] ) 
-    SELECT [IdentityColumn], [Column2], [Column3], [Column4] FROM MainTable
-    SET IDENTITY_INSERT DuplicateTable OFF
